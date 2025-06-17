@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock-Paper-Scissors</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            text-align: center;
+            padding: 20px;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        .start-section, .game-section {
+            margin-bottom: 20px;
+        }
+        input, button {
+            font-size: 16px;
+            padding: 10px;
+            margin-top: 10px;
+        }
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .choice, .result-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 10px;
+            height: 100px;
+        }
+        .choice img {
+            width: 50px;
+            cursor: pointer;
+        }
+        .choice img:hover {
+            transform: scale(1.1);
+            transition: transform 0.2s;
+        }
+        .result-message {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+        .replay-btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background: #007bff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .replay-btn:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>ROCK PAPER SCISSORS</h1>
+    <div class="container">
+        <div class="start-section">
+            <label for="player-name">Enter player's name:</label>
+            <input type="text" id="player-name" placeholder="Player's name">
+            <button onclick="startGame()">Start Game</button>
+        </div>
+        <div class="game-section" style="display: none;">
+            <div class="game-grid">
+                <div>
+                    <p>Player's score:</p>
+                    <p id="player-score">0</p>
+                </div>
+                <div>
+                    <p>Turn:</p>
+                    <p id="turn-counter">0</p>
+                </div>
+                <div>
+                    <p>Computer's score:</p>
+                    <p id="computer-score">0</p>
+                </div>
+            </div>
+            <div class="game-grid">
+                <div class="result-box">
+                    <p>Player's choice</p>
+                    <p id="player-choice">-</p>
+                </div>
+                <div class="result-box">
+                    <p>Result</p>
+                    <p class="result-message" id="result-message">-</p>
+                </div>
+                <div class="result-box">
+                    <p>Computer's choice</p>
+                    <p id="computer-choice">-</p>
+                </div>
+            </div>
+            <div class="game-grid">
+                <div class="choice"><img src="rock.jpeg" alt="Rock" onclick="playGame('Rock')"></div>
+                <div class="choice"><img src="paper.jpeg" alt="Paper" onclick="playGame('Paper')"></div>
+                <div class="choice"><img src="siscors.jpeg" alt="Scissors" onclick="playGame('Scissors')"></div>
+            </div>
+            <button class="replay-btn" onclick="resetGame()">Replay</button>
+        </div>
+    </div>
+    <script>
+        let playerScore = 0;
+        let computerScore = 0;
+        let turnCounter = 0;
+
+        function startGame() {
+            const playerName = document.getElementById('player-name').value;
+            if (!playerName) {
+                alert('Please enter your name!');
+                return;
+            }
+            document.querySelector('.start-section').style.display = 'none';
+            document.querySelector('.game-section').style.display = 'block';
+            alert(`Welcome, ${playerName}! Let's play!`);
+        }
+
+        function playGame(playerChoice) {
+            const choices = ['Rock', 'Paper', 'Scissors'];
+            const computerChoice = choices[Math.floor(Math.random() * 3)];
+            document.getElementById('player-choice').textContent = playerChoice;
+            document.getElementById('computer-choice').textContent = computerChoice;
+
+            let result;
+            if (playerChoice === computerChoice) {
+                result = 'Draw';
+            } else if (
+                (playerChoice === 'Rock' && computerChoice === 'Scissors') ||
+                (playerChoice === 'Paper' && computerChoice === 'Rock') ||
+                (playerChoice === 'Scissors' && computerChoice === 'Paper')
+            ) {
+                result = 'You Win!';
+                playerScore++;
+            } else {
+                result = 'You Lose!';
+                computerScore++;
+            }
+
+            document.getElementById('result-message').textContent = result;
+            document.getElementById('player-score').textContent = playerScore;
+            document.getElementById('computer-score').textContent = computerScore;
+            document.getElementById('turn-counter').textContent = ++turnCounter;
+        }
+
+        function resetGame() {
+            playerScore = 0;
+            computerScore = 0;
+            turnCounter = 0;
+
+            document.getElementById('player-score').textContent = playerScore;
+            document.getElementById('computer-score').textContent = computerScore;
+            document.getElementById('turn-counter').textContent = turnCounter;
+            document.getElementById('player-choice').textContent = '-';
+            document.getElementById('computer-choice').textContent = '-';
+            document.getElementById('result-message').textContent = '-';
+        }
+    </script>
+</body>
+</html>
